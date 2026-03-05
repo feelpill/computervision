@@ -116,7 +116,7 @@ cv.imshow()
 ## Result
 
 이미지 위에 자유롭게 그림을 그릴 수 있음.
-
+![Final](1week/paintingdrawsoccer.jpg)
 ---
 
 # Assignment 3 : ROI (Region of Interest)
