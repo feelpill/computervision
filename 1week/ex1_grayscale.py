@@ -26,7 +26,8 @@ mixed = np.hstack((img_small, gray_bgr))
 
 # 결과 보여주기
 cv.imshow('colorbw.jpg',mixed)
-
+# 결과 저장
+cv.imwrite('colorbw.jpg', mixed)
 #아무거나 누르면 종료
 cv.waitKey()
 cv.destroyAllWindows()
