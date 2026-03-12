@@ -248,14 +248,13 @@ cv2.warpAffine()
 
 Original Image
 
-![rose]rose.png)
+![rose](rose.png)
 
 ---
 
 Transformed Image
 
 ![affine](rotatetransformrose.png)
-
 ---
 
 # Assignment 3 : Stereo Depth Estimation
