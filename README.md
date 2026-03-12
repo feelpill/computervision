@@ -145,19 +145,19 @@ Error 값이 **작을수록 정확한 캘리브레이션**이다.
 
 ### Checkerboard Detection
 
-![corners](week2/corners_result.jpg)
+![corners](corners_result.jpg)
 
 ---
 
 ### Original Image
 
-![original](week2/calibration_images/left.jpg)
+![original](calibration_images/left.jpg)
 
 ---
 
 ### Undistorted Image
 
-![undistorted](week2/undistorted_result.jpg)
+![undistorted](undistorted_result.jpg)
 
 ---
 
@@ -248,13 +248,13 @@ cv2.warpAffine()
 
 Original Image
 
-![rose](week2/rose.png)
+![rose]rose.png)
 
 ---
 
 Transformed Image
 
-![affine](week2/rotatestransformrose.png)
+![affine](rotatetransformrose.png)
 
 ---
 
@@ -343,20 +343,20 @@ cv.applyColorMap()
 
 ### Disparity Map
 
-![disparity](week2/outputs/disparity_color.png)
+![disparity](outputs/disparity_color.png)
 
 ---
 
 ### Depth Map
 
-![depth](week2/outputs/depth_color.png)
+![depth](outputs/depth_color.png)
 
 ---
 
 ### ROI Detection
 
-![roi](week2/outputs/left_roi.png)
-![roi](week2/outputs/right_roi.png)
+![roi](outputs/left_roi.png)
+![roi](outputs/right_roi.png)
 
 ---
 
