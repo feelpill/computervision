@@ -145,7 +145,7 @@ Error 값이 **작을수록 정확한 캘리브레이션**이다.
 
 ### Checkerboard Detection
 
-![corner](2week/corners.jpg)
+![corner](corners.png)
 
 ---
 
@@ -157,7 +157,7 @@ Error 값이 **작을수록 정확한 캘리브레이션**이다.
 
 ### Undistorted Image
 
-![undistorted](2week/undistorted_result.jpg)
+![undistorted](undistorted_result.jpg)
 
 ---
 
@@ -254,7 +254,7 @@ Original Image
 
 Transformed Image
 
-![affine](2week/rotatetransformrose.png)
+![affine](rotatetransformrose.png)
 
 ---
 
@@ -343,20 +343,20 @@ cv.applyColorMap()
 
 ### Disparity Map
 
-![disparity](2week/outputs/disparity_color.png)
+![disparity](outputs/disparity_color.png)
 
 ---
 
 ### Depth Map
 
-![depth](2week/outputs/depth_color.png)
+![depth](outputs/depth_color.png)
 
 ---
 
 ### ROI Detection
 
-![roi](2week/outputs/left_roi.png)
-![roi](2week/outputs/right_roi.png)
+![roi](outputs/left_roi.png)
+![roi](outputs/right_roi.png)
 
 ---
 
