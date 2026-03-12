@@ -174,7 +174,7 @@ cv.undistort()
 
 체커보드 코너 검출 결과
 
-![Corners](week2/corners_result.jpg)
+![Corners](week2/corners.png)
 
 ---
 
