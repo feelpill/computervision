@@ -145,6 +145,7 @@ Error 값이 **작을수록 정확한 캘리브레이션**이다.
 
 ### Checkerboard Detection
 
+![corner](2week/corners.jpg)
 
 ---
 
