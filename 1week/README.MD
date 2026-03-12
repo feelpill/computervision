@@ -68,7 +68,7 @@ cv.imwrite()
 
 ### Original Image
 
-![original](1week/soccer.jpg)
+![original](soccer.jpg)
 
 ### Grayscale Image
 
