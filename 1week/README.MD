@@ -72,11 +72,11 @@ cv.imwrite()
 
 ### Grayscale Image
 
-![gray](1week/soccer_Gray.jpg)
+![gray](soccer_Gray.jpg)
 
 ### Mixed Image
 
-![Final](1week/colorbw.jpg)
+![Final](colorbw.jpg)
 
 ---
 
@@ -119,7 +119,7 @@ cv.imshow()
 
 이미지 위에 자유롭게 그림을 그릴 수 있다.
 
-![Final](1week/paintingdrawsoccer.jpg)
+![Final](paintingdrawsoccer.jpg)
 
 ---
 
@@ -171,7 +171,7 @@ roi = img[start_y:y, start_x:x]
 
 선택한 영역만 추출된 이미지가 새로운 창에 표시된다.
 
-![ROI](1week/roi.jpg)
+![ROI](roi.jpg)
 
 ---
 
