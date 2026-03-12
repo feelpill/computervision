@@ -254,6 +254,7 @@ Original Image
 Transformed Image
 
 ![affine](rotatetransformrose.png)
+
 ---
 
 # Assignment 3 : Stereo Depth Estimation
