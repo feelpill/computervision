@@ -253,7 +253,7 @@ Original Image
 
 Transformed Image
 
-![affine](rotatetransformrose.png)
+![affine](2week/rotatetransformrose.png)
 
 ---
 
