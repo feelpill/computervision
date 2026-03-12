@@ -1,7 +1,8 @@
 # Computer Vision Week 2 Assignment
 
-OpenCV와 Python을 이용한 **중급 컴퓨터 비전 과제**입니다.  
-이번 과제에서는 **카메라 캘리브레이션, 이미지 기하 변환, 스테레오 깊이 추정**을 구현했습니다.
+OpenCV와 Python을 이용한 **카메라 캘리브레이션(Camera Calibration)** 실습입니다.  
+체커보드 이미지를 이용하여 **카메라 내부 파라미터(Camera Matrix)** 와 **렌즈 왜곡 계수(Distortion Coefficients)** 를 계산하고  
+이미지의 **렌즈 왜곡을 보정(Undistortion)** 하는 프로그램을 구현했습니다.
 
 ---
 
@@ -16,311 +17,198 @@ OpenCV와 Python을 이용한 **중급 컴퓨터 비전 과제**입니다.
 
 # Project Structure
 
-
+```
 computervision
 │
 ├── week1
-│ └── (Week1 과제 코드)
 │
 ├── week2
-│ ├── ex1_calibrate.py
-│ ├── ex2_affine_transform.py
-│ ├── ex3_stereo_depth.py
-│ ├── calibration_images
-│ ├── left.png
-│ ├── right.png
-│ └── rose.png
+│   ├── ex1_calibration.py
+│   ├── calibration_images
+│   │   ├── left01.jpg
+│   │   ├── left02.jpg
+│   │   └── ...
+│   │
+│   ├── undistorted_result.jpg
+│   └── README.md
 │
 └── README.md
-
+```
 
 ---
 
-# Assignment 1 : Camera Calibration
+# Assignment : Camera Calibration
 
 ## Description
 
-체커보드 패턴 이미지를 이용하여 **카메라 내부 파라미터(Camera Matrix)**와  
-**렌즈 왜곡 계수(Distortion Coefficients)**를 계산하는 프로그램을 구현하였다.
+체커보드 이미지를 이용하여 **카메라 캘리브레이션(Camera Calibration)** 을 수행한다.
 
-카메라 캘리브레이션은 실제 3D 좌표와 이미지 2D 좌표의 관계를 이용하여  
-카메라의 기하학적 특성을 추정하는 과정이다.
+카메라 캘리브레이션은 다음 정보를 계산하기 위해 사용된다.
 
----
+* Camera Matrix (카메라 내부 파라미터)
+* Distortion Coefficients (렌즈 왜곡 계수)
+* Reprojection Error (캘리브레이션 정확도)
 
-## Key Function
-
-
-cv2.findChessboardCorners()
-cv2.cornerSubPix()
-cv2.calibrateCamera()
-cv2.projectPoints()
-cv2.undistort()
-
+이를 통해 **렌즈 왜곡을 제거한 이미지**를 생성할 수 있다.
 
 ---
 
-## Code Explanation
+# Key Function
 
-### 1. 체커보드 코너 검출
-
-
-cv2.findChessboardCorners()
-
-
-체커보드 패턴에서 내부 코너 위치를 탐지한다.
-
-검출된 코너는 이미지 좌표(`imgpoints`)로 저장된다.
+```
+cv.findChessboardCorners()
+cv.cornerSubPix()
+cv.calibrateCamera()
+cv.projectPoints()
+cv.undistort()
+```
 
 ---
 
-### 2. 코너 정밀화
+# Code Explanation
 
+## 1. 체커보드 설정
 
-cv2.cornerSubPix()
+체커보드 내부 코너 개수를 설정한다.
 
+```
+CHECKERBOARD = (9,6)
+square_size = 25
+```
 
-검출된 코너 위치를 **subpixel 수준으로 보정**하여 정확도를 향상시킨다.
+| 변수 | 설명 |
+|-----|------|
+| CHECKERBOARD | 체커보드 내부 코너 개수 |
+| square_size | 체커보드 한 칸의 실제 크기 (mm) |
 
 ---
 
-### 3. 카메라 파라미터 계산
+## 2. 체커보드 3D 좌표 생성
 
+실제 세계 좌표를 생성한다.
 
-cv2.calibrateCamera()
+```
+objp = np.zeros((CHECKERBOARD[0]*CHECKERBOARD[1],3), np.float32)
+objp[:,:2] = np.mgrid[0:CHECKERBOARD[0],0:CHECKERBOARD[1]].T.reshape(-1,2)
+objp *= square_size
+```
 
+체커보드는 **Z = 0 평면 위에 있다고 가정**한다.
 
-다음 파라미터를 계산한다.
+---
 
-* Camera Matrix (K)
+## 3. 체커보드 코너 검출
+
+이미지에서 체커보드 코너를 검출한다.
+
+```
+ret, corners = cv2.findChessboardCorners(gray, CHECKERBOARD, None)
+```
+
+코너 검출이 성공하면
+
+* 실제 좌표 저장
+* 이미지 좌표 저장
+
+---
+
+## 4. 코너 정밀화
+
+코너 위치를 **Subpixel 수준으로 보정**한다.
+
+```
+corners2 = cv2.cornerSubPix()
+```
+
+이를 통해 **캘리브레이션 정확도를 높인다.**
+
+---
+
+## 5. 카메라 캘리브레이션
+
+다음 함수로 카메라 파라미터를 계산한다.
+
+```
+cv.calibrateCamera()
+```
+
+출력 결과
+
+* Camera Matrix
 * Distortion Coefficients
 * Rotation Vector
 * Translation Vector
 
 ---
 
-### 4. Reprojection Error 계산
+## 6. Reprojection Error 계산
 
-캘리브레이션 정확도를 평가하기 위해 **Reprojection Error**를 계산한다.
+캘리브레이션 정확도를 평가하기 위해  
+**Reprojection Error** 를 계산한다.
 
+```
+imgpoints2, _ = cv2.projectPoints()
+```
 
-cv2.projectPoints()
+실제 코너와 다시 투영된 코너의 차이를 계산한다.
 
-
-3D 좌표를 다시 이미지 평면에 투영하여  
-실제 코너 위치와의 차이를 측정한다.
-
----
-
-### 5. 이미지 왜곡 보정
-
-
-cv2.undistort()
-
-
-계산된 카메라 파라미터를 이용하여  
-렌즈 왜곡이 보정된 이미지를 생성한다.
+값이 **작을수록 캘리브레이션 정확도가 높다.**
 
 ---
 
-## Result
+## 7. 이미지 왜곡 보정
 
-* Camera Matrix 출력
-* Distortion Coefficient 출력
-* Reprojection Error 계산
-* 왜곡 보정 이미지 생성
+렌즈 왜곡을 제거하기 위해 다음 함수를 사용한다.
 
----
+```
+cv.undistort()
+```
 
-# Assignment 2 : Affine Transformation
-
-## Description
-
-이미지에 **회전(Rotation), 크기 조절(Scaling), 평행 이동(Translation)**을 동시에 적용하는 프로그램을 구현하였다.
+이 과정으로 **직선 왜곡이 제거된 이미지**를 얻을 수 있다.
 
 ---
 
-## Transformation Requirement
+# Result
 
-* 이미지 중심 기준 **30도 회전**
-* **0.8배 크기 축소**
-* **x 방향 +80px 이동**
-* **y 방향 -40px 이동**
+## Checkerboard Corner Detection
 
----
+체커보드 코너 검출 결과
 
-## Key Function
-
-
-cv2.getRotationMatrix2D()
-cv2.warpAffine()
-
+![Corners](week2/corners_result.jpg)
 
 ---
 
-## Code Explanation
+## Original Image
 
-### 1. 회전 + 스케일 변환 행렬 생성
-
-
-cv2.getRotationMatrix2D(center, 30, 0.8)
-
-
-이미지 중심을 기준으로
-
-* 30도 회전
-* 0.8배 스케일
-
-Affine 변환 행렬을 생성한다.
+![Original](week2/original.jpg)
 
 ---
 
-### 2. 평행 이동 추가
+## Undistorted Image
 
+렌즈 왜곡이 제거된 결과 이미지
 
-M[0,2] += 80
-M[1,2] += -40
-
-
-Affine 행렬의 translation 값을 변경하여  
-이미지를 이동시킨다.
-
----
-
-### 3. Affine 변환 적용
-
-
-cv2.warpAffine()
-
-
-변환 행렬을 이용하여  
-회전, 크기 조절, 평행 이동을 동시에 수행한다.
-
----
-
-## Result
-
-* 이미지 회전
-* 이미지 축소
-* 위치 이동 적용된 결과 이미지 출력
-
----
-
-# Assignment 3 : Stereo Depth Estimation
-
-## Description
-
-좌우 카메라 이미지의 **Disparity**를 이용하여  
-물체의 **Depth(거리)**를 계산하는 프로그램을 구현하였다.
-
----
-
-## Depth Formula
-
-
-Z = fB / d
-
-
-Where
-
-* **Z** : Depth (거리)
-* **f** : Camera focal length
-* **B** : Baseline (카메라 간 거리)
-* **d** : Disparity
-
----
-
-## Key Function
-
-
-cv2.StereoBM_create()
-cv2.applyColorMap()
-cv2.rectangle()
-
-
----
-
-## Code Explanation
-
-### 1. Disparity 계산
-
-
-cv2.StereoBM_create()
-
-
-좌우 이미지의 블록 매칭을 통해  
-픽셀 간 위치 차이(disparity)를 계산한다.
-
----
-
-### 2. Depth Map 계산
-
-Depth 공식
-
-
-Z = fB / d
-
-
-을 이용하여 각 픽셀의 거리를 계산한다.
-
----
-
-### 3. ROI 거리 계산
-
-이미지의 특정 영역(ROI)을 지정하여  
-각 객체의 평균 disparity와 depth를 계산한다.
-
-ROI 대상
-
-* Painting
-* Frog
-* Teddy
-
----
-
-### 4. Disparity / Depth 시각화
-
-
-cv2.applyColorMap()
-
-
-컬러맵을 이용하여
-
-* **가까운 물체 → 빨강**
-* **먼 물체 → 파랑**
-
-으로 시각화한다.
-
----
-
-## Result
-
-* Disparity Map 생성
-* Depth Map 생성
-* ROI별 평균 거리 계산
-* 가장 가까운 객체 / 가장 먼 객체 출력
+![Undistorted](week2/undistorted_result.jpg)
 
 ---
 
 # How to Run
 
-
-python ex1_calibrate.py
-python ex2_affine_transform.py
-python ex3_stereo_depth.py
-
+```
+python ex1_calibration.py
+```
 
 ---
 
 # Learning Outcome
 
-이번 과제를 통해 다음 내용을 학습하였다.
+이번 실습을 통해 다음 내용을 학습하였다.
 
-* Camera Calibration
-* Affine Transformation
-* Stereo Vision
-* Depth Estimation
-* OpenCV 기반 3D 거리 계산
+* 카메라 캘리브레이션 원리
+* 체커보드 코너 검출
+* Camera Matrix 계산
+* 렌즈 왜곡 보정
+* Reprojection Error 평가
 
 ---
 
