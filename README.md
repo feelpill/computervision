@@ -19,9 +19,9 @@ OpenCV와 Python을 이용한 **중급 컴퓨터 비전 과제**입니다.
 ```
 computervision
 │
-├── week1
+├── 1week
 │
-├── week2
+├── 2week
 │   ├── ex1_calibrate.py
 │   ├── ex2_rotatetransform.py
 │   ├── ex3_disparity.py
@@ -150,13 +150,13 @@ Error 값이 **작을수록 정확한 캘리브레이션**이다.
 
 ### Original Image
 
-![original](calibration_images/left01.jpg)
+![original](2week/calibration_images/left01.jpg)
 
 ---
 
 ### Undistorted Image
 
-![undistorted](undistorted_result.jpg)
+![undistorted](2week/undistorted_result.jpg)
 
 ---
 
@@ -247,7 +247,7 @@ cv2.warpAffine()
 
 Original Image
 
-![rose](rose.png)
+![rose](2week/rose.png)
 
 ---
 
@@ -341,20 +341,20 @@ cv.applyColorMap()
 
 ### Disparity Map
 
-![disparity](outputs/disparity_color.png)
+![disparity](2week/outputs/disparity_color.png)
 
 ---
 
 ### Depth Map
 
-![depth](outputs/depth_color.png)
+![depth](2week/outputs/depth_color.png)
 
 ---
 
 ### ROI Detection
 
-![roi](outputs/left_roi.png)
-![roi](outputs/right_roi.png)
+![roi](2week/outputs/left_roi.png)
+![roi](2week/outputs/right_roi.png)
 
 ---
 
@@ -362,7 +362,7 @@ cv.applyColorMap()
 
 ```
 python ex1_calibrate.py
-python ex2_rotatestransform.py
+python ex2_rotatetransform.py
 python ex3_disparity.py
 ```
 
