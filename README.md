@@ -145,13 +145,12 @@ Error 값이 **작을수록 정확한 캘리브레이션**이다.
 
 ### Checkerboard Detection
 
-![corners](corners_result.jpg)
 
 ---
 
 ### Original Image
 
-![original](calibration_images/left.jpg)
+![original](calibration_images/left01.jpg)
 
 ---
 
