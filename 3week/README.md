@@ -71,7 +71,7 @@ else:
     print("결과 이미지를 찾을 수 없습니다.")
  ```
 Sobel Edge Magnitude
-![ex1_result](result/ex1_result.jpg)
+![ex1_result](result/ex1_result.png)
 
 # Assignment 2 : Hough Line Transform
 
@@ -105,7 +105,7 @@ if result_img2 is not None:
     cv.destroyAllWindows()
 ```
 Detected Lines
-![ex2_result](result/ex2_result.jpg)
+![ex2_result](result/ex2_result.png)
 
 # Assignment 3 : GrabCut Segmentation
 Description
@@ -136,7 +136,7 @@ if result_img3 is not None:
     cv.destroyAllWindows()
 ```
 Nukki Lines
-![ex3_result](result/ex3_result.jpg)
+![ex3_result](result/ex3_result.png)
 
 # How to Run
 ```
