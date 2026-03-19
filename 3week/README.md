@@ -70,6 +70,9 @@ if result_img is not None:
 else:
     print("결과 이미지를 찾을 수 없습니다.")
  ```
+Sobel Edge Magnitude
+![ex1_result](result/ex1_result.jpg)
+
 # Assignment 2 : Hough Line Transform
 
 Description
@@ -91,7 +94,6 @@ if lines is not None:
         cv.line(line_img, (x1, y1), (x2, y2), (0, 0, 255), 2)
 ```
 
-cv2.imshow("ex1_result", result)
 2. 결과 이미지 로드 및 팝업창 출력
 ```
 # 저장된 결과 이미지(ex2_result.jpg)를 불러와서 화면에 띄우기
@@ -102,7 +104,8 @@ if result_img2 is not None:
     cv.waitKey(0)
     cv.destroyAllWindows()
 ```
-
+Detected Lines
+![ex2_result](result/ex2_result.jpg)
 
 # Assignment 3 : GrabCut Segmentation
 Description
@@ -132,6 +135,8 @@ if result_img3 is not None:
     cv.waitKey(0)
     cv.destroyAllWindows()
 ```
+Nukki Lines
+![ex3_result](result/ex3_result.jpg)
 
 # How to Run
 ```
