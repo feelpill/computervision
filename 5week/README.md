@@ -133,7 +133,7 @@ plt.show()
 
 ### 결과
 
-![MNIST 분류 결과](02_mnist_result.png)
+![MNIST 분류 결과](01_mnist_result.png)
 
 > 5 에폭만으로도 약 97% 이상의 테스트 정확도를 달성합니다. Flatten + Dense만으로 구성된 간단한 구조이지만, MNIST처럼 비교적 단순한 이미지에는 충분한 성능을 보입니다.
 
