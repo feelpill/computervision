@@ -1,6 +1,6 @@
 """
 L06 과제2: Mediapipe를 활용한 얼굴 랜드마크 추출 및 시각화
-- Mediapipe FaceLandmarker(Tasks API)로 468개 얼굴 랜드마크 검출
+- Mediapipe FaceLandmarker로 468개 얼굴 랜드마크 검출
 - OpenCV 웹캠 실시간 영상에 랜드마크 점 표시
 - ESC 키로 종료
 """
@@ -15,7 +15,6 @@ from mediapipe.tasks.python.vision import (
     FaceLandmarkerOptions,
     RunningMode,
 )
-
 
 MODEL_URL = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"
 MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "face_landmarker.task")
@@ -32,7 +31,7 @@ def download_model():
 def main():
     download_model()
 
-    # 결과 저장용 변수 (콜백에서 갱신)
+    # 콜백으로 결과 수신
     latest_result = [None]
 
     def on_result(result, output_image, timestamp_ms):
@@ -48,7 +47,7 @@ def main():
         min_tracking_confidence=0.5,
         result_callback=on_result,
     )
-    landmarker = FaceLandmarker.create_from_options(options)
+    face_mesh = FaceLandmarker.create_from_options(options)
 
     # 웹캠 캡처
     cap = cv2.VideoCapture(0)
@@ -64,17 +63,16 @@ def main():
         if not ret:
             break
 
-        # 좌우 반전 (거울 효과)
         frame = cv2.flip(frame, 1)
         h, w = frame.shape[:2]
 
-        # Mediapipe Image 변환 후 비동기 검출
+        # BGR -> RGB 변환 후 비동기 검출
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
-        landmarker.detect_async(mp_image, frame_timestamp)
+        face_mesh.detect_async(mp_image, frame_timestamp)
         frame_timestamp += 33  # ~30fps 간격
 
-        # 랜드마크 시각화
+        # 검출된 랜드마크를 점으로 시각화
         result = latest_result[0]
         if result and result.face_landmarks:
             for face_landmarks in result.face_landmarks:
@@ -90,7 +88,7 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
-    landmarker.close()
+    face_mesh.close()
     print("프로그램 종료.")
 
 
