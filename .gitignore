@@ -1,0 +1,7 @@
+# Large model files
+*.weights
+*.task
+
+# Python
+__pycache__/
+*.pyc
